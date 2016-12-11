@@ -13,8 +13,15 @@ const {
 } = ReactNative
 
 class Home extends Component {
+  constructor(props) {
+      super(props);
+      this.state = {
+        ingredientsInput: ''
+      }
+  }
+
   searchPressed() {
-    this.props.fetchRecipes('bacon, cucumber, banana');
+    this.props.fetchRecipes(this.state.ingredientsInput);
   }
 
   recipes() {
@@ -23,17 +30,24 @@ class Home extends Component {
 
   render() {
     return (
-      <View style={{marginTop: 20, flex: 1}}>
-        <View>
-          <TouchableHighlight onPress={() => this.searchPressed() }>
+      <View style={styles.scene}>
+        <View style={styles.searchSection}>
+          <TextInput
+            style={styles.searchInput}
+            returnKeyType="search"
+            placeholder='Ingredients (comma delimited)'
+            onChangeText={(ingredientsInput) => this.setState({ingredientsInput})}
+            value={this.state.ingredientsInput}
+            />
+          <TouchableHighlight onPress={() => this.searchPressed() } style={styles.searchButton}>
             <Text>FetchRecipes</Text>
           </TouchableHighlight>
         </View>
-        <ScrollView>
+        <ScrollView style={styles.scrollSection}>
           {this.recipes().map((recipe, index) => {
             return (
               <View key={index}>
-                <Text>
+                <Text style={styles.resultText}>
                   {recipe.title}
                 </Text>
               </View>
@@ -45,8 +59,35 @@ class Home extends Component {
   }
 }
 
-function mapStateToProps(state) {
+const styles = StyleSheet.create({
+  scene: {
+    flex: 1,
+    marginTop: 20,
+  },
+  searchInput: {
+    flex: 0.7,
+  },
+  searchButton: {
+    flex: 0.3,
+  },
+  searchSection: {
+    height: 30,
+    borderBottomColor: '#000',
+    borderBottomWidth: 1,
+    padding: 5,
+    flexDirection: 'row',
+  },
+  scrollSection: {
+    flex: 0.8,
+  },
+  resultText: {
+    backgroundColor: '#000',
+    color: '#fff',
+    height: 20,
+  }
+});
 
+function mapStateToProps(state) {
   return {
     searchedRecipes: state.searchedRecipes
   }
