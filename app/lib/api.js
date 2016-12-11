@@ -4,6 +4,7 @@ class Api {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'dataType': 'json',
+      'Authorization': 'Client-ID 3e813d3f5dbea81'
     }
   }
 
@@ -24,17 +25,20 @@ class Api {
   }
 
   static xhr(route, params, verb) {
-    const host = 'http://www.recipepuppy.com'
+    const host = 'https://api.imgur.com/3'
     const url = `${host}${route}`
     let options = Object.assign({ method: verb }, params ? { body: JSON.stringify(params) } : null );
     options.headers = Api.headers()
+    console.log(url);
     return fetch(url, options).then( resp => {
       let json = resp.json();
       if (resp.ok) {
         return json
       }
       return json.then(err => {throw err});
-    }).then( json => json.results );
+    }).then( json => {
+      return json.data;
+    });
   }
 }
 export default Api

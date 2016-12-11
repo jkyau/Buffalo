@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactNative from 'react-native';
 import { connect } from 'react-redux';
+import Gif from './Gif';
 
 const {
   ScrollView,
@@ -16,7 +17,8 @@ class Home extends Component {
   constructor(props) {
       super(props);
       this.state = {
-        ingredientsInput: ''
+        ingredientsInput: '',
+        gifsInput: '',
       }
   }
 
@@ -24,32 +26,35 @@ class Home extends Component {
     this.props.fetchRecipes(this.state.ingredientsInput);
   }
 
-  recipes() {
-    return Object.keys(this.props.searchedRecipes).map(key => this.props.searchedRecipes[key]);
+  searchGifs() {
+    this.props.fetchGifs(this.state.gifsInput);
+  }
+
+  gifs() {
+    return Object.keys(this.props.searchedGifs).map(key => this.props.searchedGifs[key]);
   }
 
   render() {
     return (
       <View style={styles.scene}>
         <View style={styles.searchSection}>
-          <TextInput
+          {/*<TextInput
             style={styles.searchInput}
             returnKeyType="search"
-            placeholder='Ingredients (comma delimited)'
-            onChangeText={(ingredientsInput) => this.setState({ingredientsInput})}
-            value={this.state.ingredientsInput}
-            />
-          <TouchableHighlight onPress={() => this.searchPressed() } style={styles.searchButton}>
-            <Text>FetchRecipes</Text>
+            placeholder='Input'
+            onChangeText={(gifsInput) => this.setState({gifsInput})}
+            value={this.state.gifsInput}
+            />*/}
+          <TouchableHighlight onPress={() => this.searchGifs() } style={styles.searchButton}>
+            <Text>Get Gifs</Text>
           </TouchableHighlight>
         </View>
         <ScrollView style={styles.scrollSection}>
-          {this.recipes().map((recipe, index) => {
+          {this.gifs().map((gif, index) => {
             return (
-              <View key={index}>
-                <Text style={styles.resultText}>
-                  {recipe.title}
-                </Text>
+              <View key={gif.id}>
+                <Gif {...this.props} gif={gif}/>
+                <Text style={styles.resultText}>{gif.title}</Text>
               </View>
             )
           })}
@@ -89,7 +94,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    searchedRecipes: state.searchedRecipes
+    searchedGifs: state.searchedGifs,
   }
 }
 
