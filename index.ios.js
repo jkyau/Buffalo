@@ -4,6 +4,7 @@ import {createStore, applyMiddleware, comineReduxers, compose} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 import reducer from './app/reducers';
+import AppContainer from './app/containers/AppContainer'
 
 const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__ });
 
@@ -21,23 +22,11 @@ const store = configureStore({});
 
 import {
   AppRegistry,
-  StyleSheet,
-  Text,
-  View
 } from 'react-native';
-
-export default class Buffalo extends Component {
-  render() {
-    return (
-      <View>
-      </View>
-    );
-  }
-}
 
 const App = () => (
   <Provider store={store}>
-    <Buffalo/>
+    <AppContainer />
   </Provider>
 );
 
