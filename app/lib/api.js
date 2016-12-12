@@ -28,8 +28,7 @@ class Api {
     const host = 'https://api.imgur.com/3'
     const url = `${host}${route}`
     let options = Object.assign({ method: verb }, params ? { body: JSON.stringify(params) } : null );
-    options.headers = Api.headers()
-    console.log(url);
+    options.headers = Api.headers();
     return fetch(url, options).then( resp => {
       let json = resp.json();
       if (resp.ok) {

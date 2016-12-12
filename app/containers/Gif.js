@@ -10,47 +10,56 @@ const {
   Image,
   TouchableHighlight,
   StyleSheet,
+  Dimensions,
 } = ReactNative
 
 class Gif extends Component {
   constructor(props) {
       super(props);
-      console.log('hiiii');
-      console.log(this.props.gif);
       this.getGif(this.props.gif.cover);
   }
 
   getGif(id) {
-    console.log(id);
     this.props.fetchImage(id);
   }
 
   render() {
+    let url = this.props.gif.link;
+
     return (
-      <View>
-
+      <View style={styles.imageContainer}>
           <Image
-            style={{width: 50, height: 50}}
-            source={{uri: this.props.gif.link}}
+            resizeMode="contain"
+            style={[styles.canvas, {height: this.props.height}]}
+            source={{uri: url}}
             />
-
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  canvas: {
+    width: Dimensions.get('window').width,
+  },
+  imageContainer: {
+    flex: 1,
+    alignItems: 'stretch'
+  }
 });
 
 function mapStateToProps(state, props) {
   const images = state.images;
+
+  let gifv = props.gif.gifv;
   let id = props.gif.cover;
   let image = state.images[id];
-
-  console.log(image);
+  let height = Dimensions.get('window').width * props.gif.height / props.gif.width;
 
   return {
     image,
+    height,
+    gifv,
   }
 }
 

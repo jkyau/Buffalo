@@ -6,7 +6,6 @@ export function fetchGifs(input) {
     const params = [
     ].join('&')
     return Api.get(`/gallery/t/cats/viral/1`).then(resp => {
-    //return Api.get(`/gallery/hot/viral/1?${params}`).then(resp => {
       dispatch(setSearchedGifs({gifs: resp}));
     }).catch( (ex) => {
       console.log(ex);
@@ -17,8 +16,6 @@ export function fetchGifs(input) {
 export function fetchImage(id) {
   return (dispatch, getState) => {
     return Api.get(`/image/${id}`).then(resp => {
-      console.log('hiiii');
-      console.log(resp);
       dispatch(fetchImageSuccess({image: resp}));
     }).catch( (ex) => {
       console.log(ex);
